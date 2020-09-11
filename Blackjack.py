@@ -1,5 +1,4 @@
 """Program for a game of Blackjack."""
-
 import random
 from IPython.display import clear_output
 
@@ -72,13 +71,17 @@ class Hand:
         for card in self.card_list:
             new_list.append(str(card))
         return "\n".join(new_list)
+    
+    def __getitem__(self, index):
+        return str(self.card_list[index])
 
     
 class Chips:
     """A class to keep track of a player's starting chips, bets and ongoing winnings."""
 
     def __init__(self, total = 100):
-        self.total = total                                                                                                              
+        self.total = total     
+        
     def win_bet(self, bet):
         """A method adding the bet amount to the player's chips in a win-game scenario."""
         self.total += bet
@@ -88,7 +91,10 @@ class Chips:
         self.total -= bet
 
     def __str__(self):
-        return f"You have {self.total} chip(s)."
+        if self.total > 1:
+            return f"{self.total} chips"
+        else:
+            return f"{self.total} chip"
 
     
 def welcome():
@@ -105,7 +111,8 @@ def take_bet():
         try:
             bet = int(input("How much would you like to bet? "))
         except:
-            print("Invalid bet! Please try again.")
+            clear_output()
+            print(f"Invalid bet! Please try again.\n\nYou have {player_chips}.")
         else:
             break
 
@@ -127,7 +134,9 @@ def hit_or_stand(deck, hand):
         answer = input("Would you like to hit? (Yes or No) ").upper()
         
         if answer not in acceptable_values:
+            clear_output()
             print("Invalid input! Enter 'Yes' or 'No'.")
+            show_some(player, dealer)
         elif answer == "YES":
             clear_output()
             return True
@@ -137,29 +146,25 @@ def hit_or_stand(deck, hand):
             playing = False
             break
 
-            
+
 def show_some(player, dealer):
     """Function that reveals each of the players hands, keeping one dealer card hidden."""
-    
-    new_list = []    
-    for card in dealer.card_list:
-        new_list.append(str(card))
-    new_list.pop(0)
-    "\n".join(new_list)
-    print(f"\nThe dealer has: \n{new_list[0]}\n")
+        
+    print(f"\nDealer's first card:\n{dealer[0]}\n")
+    print(f"Card value: {dealer.card_list[0].value}\n")
     
     print(f"You have: \n{player}")
     print(f"\nYour hand total is: {player.sum}")
-
+    
     
 def show_all(player, dealer):
     """Function that reveals each of the player's hands."""
     
-    print(f"Here are the dealer's cards: \n{dealer}\n")
+    print(f"\nHere are the dealer's cards: \n{dealer}\n")
     print(f"Dealer hand total: {dealer.sum}\n")
     
     print(f"Here is what you had: \n{player}\n")
-    print(f"Player hand total: {player.sum}")
+    print(f"Player hand total: {player.sum}\n")
 
     
 def replay():
@@ -209,7 +214,7 @@ while game_on:
     hit(new_deck, player)
 
     while True:
-        print(player_chips)
+        print(f"You have {player_chips}.")
         take_bet()
         if 0 < bet <= player_chips.total:
             clear_output()
@@ -217,50 +222,58 @@ while game_on:
             break
         else:
             clear_output()
-            print(f"You can only bet between 0 and {player_chips.total}.")
+            print(f"You can only bet between 0 and {player_chips.total}.\n")
 
     show_some(player, dealer) 
 
     while playing: 
-        if hit_or_stand(new_deck, player):
-            hit(new_deck, player)
-            clear_output() 
-            show_some(player, dealer)
-            
-        if player.sum > 21:
+        if player.sum == 21:
             clear_output()
-            print(f"\nPlayer went bust! The dealer wins!\n")
-            player_chips.lose_bet(bet)
-            playing = False
-            dealer_turn = False
-
-        elif player.sum == 21:
-            clear_output()
-            print(f"\nCongratulations! Player wins the game!\n")
+            print(f"\nCongratulations! You scored 21 and won the game!\n")
+            print(f"Chips won: {bet}\n")
             player_chips.win_bet(bet)
             playing = False    
             dealer_turn = False
             
+        elif player.sum > 21:
+            clear_output()
+            print(f"\nPlayer went bust, the dealer wins!\n")
+            print(f"Chips lost: {bet}\n")
+            player_chips.lose_bet(bet)
+            playing = False
+            dealer_turn = False
+            
+        elif hit_or_stand(new_deck, player):
+            hit(new_deck, player)
+            clear_output() 
+            show_some(player, dealer)
+            
+            
     if dealer_turn == True:
-
+        print("The dealer played his turn...")
+    
         while dealer.sum < 17:
             hit(new_deck, dealer)
 
         if dealer.sum > 21:
             player_chips.win_bet(bet)
-            print("\nThe dealer went bust! Player wins the game!\n")
+            print("\nThe dealer went bust, player wins the game!\n")
+            print(f"Chips won: {bet}\n")
 
         elif dealer.sum == 21:
             player_chips.lose_bet(bet)
             print("\nThe dealer scored 21 and won!\n")
+            print(f"Chips lost: {bet}\n")
 
         elif dealer.sum > player.sum and dealer.sum < 21:
             player_chips.lose_bet(bet)
             print("\nThe dealer won!\n")
+            print(f"Chips lost: {bet}\n")
 
         elif dealer.sum < player.sum and dealer.sum < 21:
             player_chips.win_bet(bet)
             print("\nThe dealer lost!\n")
+            print(f"Chips won: {bet}\n")
 
         elif dealer.sum == player.sum:
             print("\nTie game! The amount you bet has been returned to your chips total.\n")
@@ -268,24 +281,18 @@ while game_on:
         elif dealer.sum > 21 and player.sum > 21:
             print("\nTie game! The amount you bet has been returned to your chips total.\n")
             
+    
     show_all(player, dealer)
         
     if player_chips.total > 0:
-        print(f"\nYou have {player_chips.total} chip(s) remaining.") 
-        if replay():
-            dealer_turn = True
-            playing = True
-            continue        
-        else:
-            game_on = False
-
+        print(f"\nYou have {player_chips} remaining.") 
     else:
         print("\nYou have no more chips remaining!")
-        if replay():
-            dealer_turn = True
-            playing = True
-            player_chips = Chips()
-            continue
-        else:
-            game_on = False
-            
+        player_chips = Chips()
+        
+    if replay():
+        dealer_turn = True
+        playing = True
+        continue        
+    else:
+        game_on = False
