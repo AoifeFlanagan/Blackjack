@@ -17,7 +17,7 @@ The objective of this project was to create an interactive game of Blackjack inv
 * The player starts with a default value of 100 chips, shown at the beginning of the game.
 * The player is asked how much they would like to bet. If the input is not between 1 and their chips total, the player is prompted to try again with infinite tries until they enter acceptable input.
 * When the player specifies the amount of chips they wish to bet, the player is shown how many chips they have bet and how many they have remaining. 
-* when deciding to hit or stand, the player is shown the cards in their hand, their total value and one card from the dealer's hand and it's value.
+* when deciding to hit or stand, the player is shown the cards in their hand, it's total value and one card from the dealer's hand and it's total value.
 * If the player continues to hit, they will do so until they automatically win with a hand value of 21 or go Bust. 
 * When the player decides to no longer hit, the dealer will hit until they reach at least 17. The end game scenario will then be automatically detected and made known to the player. 
 * At the end of the game the player will be shown what occured during the game to result in the win/ lose/ tie scenario. For example, "The dealer scored 21 and won!", "The dealer went bust, player wins the game!" and so on. 
