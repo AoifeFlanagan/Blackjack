@@ -5,7 +5,7 @@ Repository for a game of Blackjack, created with python.
 * [Introduction](https://github.com/AoifeFlanagan/Blackjack#Introduction)
 * [Features](https://github.com/AoifeFlanagan/Blackjack#Features)
 * [Modules](https://github.com/AoifeFlanagan/Blackjack#Modules)
-* [Recommended Interactive Development Environment (IDE)](https://github.com/AoifeFlanagan/Blackjack#interactive-development-environment-ide)
+* [Recommended Interactive Development Environment (IDE)](https://github.com/AoifeFlanagan/Blackjack#recommended-interactive-development-environment-ide)
 
 ## Introduction
 The objective of this project was to create an interactive game of Blackjack involving one player and a computer dealer. 
