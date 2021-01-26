@@ -5,7 +5,7 @@ Repository for a game of Blackjack, created with python.
 * [Introduction](https://github.com/AoifeFlanagan/Blackjack#Introduction)
 * [Features](https://github.com/AoifeFlanagan/Blackjack#Features)
 * [Modules](https://github.com/AoifeFlanagan/Blackjack#Modules)
-* [Interactive Development Environment (IDE)](https://github.com/AoifeFlanagan/Blackjack#Interactive-Development-Environment-(IDE))
+* [Recommended Interactive Development Environment (IDE)](https://github.com/AoifeFlanagan/Blackjack#interactive-development-environment-ide)
 
 ## Introduction
 The objective of this project was to create an interactive game of Blackjack involving one player and a computer dealer. 
@@ -28,7 +28,9 @@ The objective of this project was to create an interactive game of Blackjack inv
 * Built-in, Random module.
 * Built-in, clear_output() functionality from IPython.display.
 
-## Interactive Development Environment (IDE)
-
+## Recommended Interactive Development Environment (IDE)
 ### **Jupyter notebook**
+This program was created and tested using a Jupyter notebook, I recommend running the code in this environment for optimal performance.
+
+### **Version**
 The notebook server was run on Python version 3.7.6
